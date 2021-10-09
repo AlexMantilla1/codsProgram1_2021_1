@@ -8,8 +8,8 @@ StopWatch reloj;
 float tiempo;
 
 // posicion del personaje
-float posX = 50, posY = 150, velY = 5;
-int suelo = 150+24;
+float posX = 50, posY = 150, velY = 5, gravedad = 0.2;
+int suelo = 250;
 boolean saltando = false;
 
 void setup() {
@@ -21,11 +21,12 @@ void setup() {
 
   // Para el Sprite(s);
   reloj = new StopWatch();
+  frameRate(10);
 }
 
 
 void draw() {
-
+  //println(frameRate);
   background(0);
   // Esto me permite actualizar el tiempo transcurrido para las animaciones de los sprites.
   tiempo = (float) reloj.getElapsedTime();
@@ -38,14 +39,15 @@ void draw() {
   popMatrix();
   
   posY = constrain(posY + velY, 0 , suelo);
-  println("suelo = " , suelo);
+  
+  println("velY = " , velY);
   println("posY = " , posY);
   if(saltando) {
-    velY += 0.2;
+    velY += gravedad;
     println("saltando");
     if(posY >= suelo) {
       saltando = false;
-      velY = 5;
+      velY = 0;
     }
   }
   
@@ -54,7 +56,7 @@ void draw() {
 void keyPressed() {
   
   if(key == ' ' && saltando == false) {
-    velY = -7;
+    velY = -8;
     saltando = true;
   }
   
