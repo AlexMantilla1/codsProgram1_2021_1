@@ -1,12 +1,6 @@
-import ddf.minim.*;
-import ddf.minim.analysis.*;
-import ddf.minim.effects.*;
-import ddf.minim.signals.*;
-import ddf.minim.spi.*;
-import ddf.minim.ugens.*;
+import processing.sound.*;
 
-Minim minim;
-AudioPlayer sonidoGota;
+SoundFile sonidoGota;
 
 float volumen = 0.5;
 
@@ -14,31 +8,51 @@ void setup() {
 
   size(100, 100);
 
-  minim = new Minim(this);
-  sonidoGota = minim.loadFile("efecto-de-sonido.mp3");
-
+  sonidoGota = new SoundFile(this,"efecto-de-sonido.mp3");
+  //sonidoGota.loop();
   textFont(createFont("Arial", 12));
+  
 }
 
 
 void draw() {
+  
+  
+  /*
   if (!sonidoGota.isLooping())
     sonidoGota.loop();
 
   println(sonidoGota.getGain());
+  */
 }
 
 void keyPressed() {
+  
+  switch(key) {
 
+  case 'p': // reproducir audio
+    if( sonidoGota.isPlaying() == false ) {
+      sonidoGota.loop();
+    }
+    break;
+  case 't':   // pausar audio
+    if( sonidoGota.isPlaying() ) {
+      sonidoGota.pause();
+    }
+    break;
+  }
+  
   switch(keyCode) {
 
   case UP:
-    sonidoGota.shiftVolume(volumen, volumen + 0.1, 100);
     volumen = constrain(volumen + 0.1, 0, 1);
+    sonidoGota.amp(volumen);
     break;
   case DOWN:
-    sonidoGota.shiftVolume(volumen, volumen + 0.1, 100);
     volumen = constrain(volumen - 0.1, 0, 1);
+    println(volumen);
+    sonidoGota.amp(volumen);
     break;
   }
+  
 }
